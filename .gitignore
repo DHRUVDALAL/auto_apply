@@ -1,0 +1,64 @@
+# ==============================================================================
+# SECRETS & CREDENTIALS PROTECTION (STRICT)
+# Under no circumstances should runtime databases containing Gmail app passwords,
+# session tokens, or API secrets be committed to source control.
+# ==============================================================================
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/*.sqlite
+data/*.sqlite3
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment and sensitive credential configuration files
+.env
+.env.*
+!.env.example
+*.env
+*.pem
+*.key
+credentials.json
+token.json
+secrets.json
+
+# Byte-compiled / cache / optimized Python files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Operating System files & artifacts (macOS / Windows)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE & Editor caches
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Log files and debugging outputs
+*.log
+logs/
+.pytest_cache/
+.coverage
+htmlcov/

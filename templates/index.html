@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP BTP HR Outreach Automation Engine | Dhruv Dalal</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+  <div class="app-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>OutreachEngine</h1>
+          <span>SAP BTP Automation</span>
+        </div>
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-item active" data-tab="dashboard">
+          <button id="nav-dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+            Dashboard
+          </button>
+        </li>
+        <li class="nav-item" data-tab="contacts">
+          <button id="nav-contacts">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Contacts & Leads
+          </button>
+        </li>
+        <li class="nav-item" data-tab="studio">
+          <button id="nav-studio">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Template Studio
+          </button>
+        </li>
+        <li class="nav-item" data-tab="settings">
+          <button id="nav-settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Sender Settings
+          </button>
+        </li>
+      </ul>
+
+      <div class="sidebar-profile">
+        <div class="avatar">DD</div>
+        <div class="profile-info">
+          <div class="profile-name">Dhruv Dalal</div>
+          <div class="profile-role">SAP BTP & AI Engineer</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <main class="main-wrapper">
+      <!-- TOP BAR -->
+      <div class="top-bar">
+        <div class="page-title">
+          <h2 id="current-page-title">Executive Dashboard</h2>
+          <p id="current-page-desc">Automated cold email pipeline for SAP BTP & CAP opportunities</p>
+        </div>
+        <div class="top-actions">
+          <span class="badge badge-sap" id="badge-target">⭐ 229 SAP Targets</span>
+          <span class="badge badge-dryrun" id="badge-mode">
+            <span class="pulse-dot"></span>
+            Simulated Dry Run
+          </span>
+          <button class="btn btn-secondary btn-sm" id="btn-quick-test" title="Send a test email to your own address">
+            ✉️ Quick Test Email
+          </button>
+        </div>
+      </div>
+
+      <!-- ACTIVE RUNNER BANNER (Shown when campaign is in progress) -->
+      <div class="runner-banner" id="runner-banner" style="display: none;">
+        <div class="runner-header">
+          <div class="runner-title-box">
+            <span class="pulse-dot" style="background:#06b6d4;"></span>
+            <h3 id="runner-status-title">Dispatching Today's Batch...</h3>
+          </div>
+          <div class="runner-controls">
+            <span class="countdown-box" id="runner-countdown" style="display: none;">
+              ⏳ Jitter: <strong id="countdown-val">45</strong>s
+            </span>
+            <button class="btn btn-amber btn-sm" id="btn-pause-campaign">⏸️ Pause</button>
+            <button class="btn btn-emerald btn-sm" id="btn-resume-campaign" style="display: none;">▶️ Resume</button>
+            <button class="btn btn-danger btn-sm" id="btn-stop-campaign">⏹️ Stop</button>
+          </div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="runner-progress-bar" style="width: 0%;"></div>
+        </div>
+        <div class="runner-meta">
+          <div>Currently emailing: <strong id="runner-current-target" style="color: #fff;">Preparing next recipient...</strong></div>
+          <div>Progress: <strong id="runner-counts">0 / 35</strong> (<span id="runner-percent">0%</span>)</div>
+        </div>
+      </div>
+
+      <!-- ---------------- TAB 1: DASHBOARD ---------------- -->
+      <section class="tab-content active" id="tab-dashboard">
+        <!-- METRIC STATS GRID -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total HR Database</span>
+              <div class="stat-icon icon-indigo">👥</div>
+            </div>
+            <div class="stat-value" id="stat-total">1,842</div>
+            <div class="stat-footer">Master executive database</div>
+          </div>
+
+          <div class="stat-card" style="border-color: rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.05);">
+            <div class="stat-header">
+              <span class="stat-label" style="color: #38bdf8;">⭐ SAP / BTP Targets</span>
+              <div class="stat-icon icon-cyan">🎯</div>
+            </div>
+            <div class="stat-value highlight-cyan" id="stat-sap-total">229</div>
+            <div class="stat-footer"><span class="highlight-cyan">High Priority</span> implementation partners</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Pending Target Leads</span>
+              <div class="stat-icon icon-amber">⏳</div>
+            </div>
+            <div class="stat-value" id="stat-pending-sap">165</div>
+            <div class="stat-footer">Remaining SAP targets ready</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Delivered Today</span>
+              <div class="stat-icon icon-emerald">🚀</div>
+            </div>
+            <div class="stat-value highlight-emerald" id="stat-sent-today">64 Sent</div>
+            <div class="stat-footer"><span id="stat-sets-completed" class="highlight-emerald">2 Sets</span> completed today</div>
+          </div>
+        </div>
+
+        <!-- QUICK ACTION HERO -->
+        <div class="card" style="background: linear-gradient(135deg, rgba(20, 29, 53, 0.8) 0%, rgba(13, 20, 36, 0.9) 100%);">
+          <div class="card-header">
+            <div class="card-title">
+              <span>⚡</span> Campaign Batch & Set Controller
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="badge badge-sap" id="badge-set-indicator" style="font-size: 12px; padding: 5px 12px;">Set #3 Ready</span>
+              <div style="font-size: 13px; color: var(--text-dim);">No daily block • Send sets continuously</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div>
+              <p style="font-size: 15px; color: #fff; font-weight: 700; margin-bottom: 4px;" id="hero-set-title">Ready for Next Set of Applications?</p>
+              <p style="font-size: 13px; color: var(--text-muted);" id="hero-set-desc">
+                Dispatches the next set of verified SAP leads automatically without repeating anyone.
+              </p>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <label style="font-size: 12px; color: var(--text-dim);">Set Size:</label>
+                <select class="select-custom" id="select-batch-size" style="padding: 5px 10px; font-weight: 600; border: none; background: transparent; color: #fff;">
+                  <option value="15">15 Leads</option>
+                  <option value="25">25 Leads</option>
+                  <option value="35" selected>35 Leads</option>
+                  <option value="50">50 Leads</option>
+                  <option value="75">75 Leads</option>
+                  <option value="100">100 Leads</option>
+                </select>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <label style="font-size: 12px; color: var(--text-dim);">Pacing:</label>
+                <select class="select-custom" id="select-pace" style="padding: 5px 10px; font-weight: 600; border: none; background: transparent; color: #fff;">
+                  <option value="8">Fast (8s)</option>
+                  <option value="15" selected>Normal (15s)</option>
+                  <option value="30">Moderate (30s)</option>
+                  <option value="60">Safe (60s)</option>
+                </select>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); padding: 8px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <label style="font-size: 12px; color: var(--text-muted); cursor: pointer;" for="switch-dry-run">Simulated Mode</label>
+                <input type="checkbox" id="switch-dry-run" style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--accent-indigo);">
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); padding: 8px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <label style="font-size: 12px; color: #38bdf8; font-weight: 600; cursor: pointer;" for="switch-sap-only">⭐ SAP Only</label>
+                <input type="checkbox" id="switch-sap-only" checked style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--accent-cyan);">
+              </div>
+              <button class="btn btn-secondary" id="btn-preview-next-set" title="View which HR contacts will be emailed next">
+                👁️ View Next Set Queue
+              </button>
+              <button class="btn btn-primary" id="btn-launch-batch">
+                🚀 Send Set #3 (Next 35 Leads)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT ACTIVITY & LOGS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🖥️</span> Live Telemetry & Dispatch Stream
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btn-refresh-logs">🔄 Refresh</button>
+          </div>
+          <div class="terminal-window" id="live-terminal">
+            <div class="log-row">
+              <span class="log-time">[System]</span>
+              <span class="log-level-INFO">[READY]</span>
+              <span class="log-msg">Outreach Engine initialized. 1,842 contacts loaded (229 SAP BTP targets prioritized).</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------- TAB 2: CONTACTS & LEADS ---------------- -->
+      <section class="tab-content" id="tab-contacts">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>👥</span> HR Executive Leads Database
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" id="btn-validate-mx">
+                🛡️ Validate All MX Records
+              </button>
+              <button class="btn btn-secondary btn-sm" id="btn-reset-contacts">
+                🔄 Reset Sending Status
+              </button>
+              <button class="btn btn-primary btn-sm" id="btn-open-add-contact">
+                ➕ Add Contact
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Toolbar -->
+          <div class="table-toolbar">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="contact-search" placeholder="Search by name, company, email, or category...">
+            </div>
+
+            <div class="filter-group">
+              <select class="select-custom" id="filter-sap">
+                <option value="SAP_ONLY">⭐ SAP Targets Only (229)</option>
+                <option value="Core SAP Partner (BTP Specialist)">BTP Specialists (7)</option>
+                <option value="Core SAP Partner (Enterprise)">Core SAP Partners (58)</option>
+                <option value="Enterprise GCC / User">Enterprise GCCs (28)</option>
+                <option value="IT Staffing & Consulting">IT Staffing / Consulting (49)</option>
+                <option value="ALL">All Contacts (1,842)</option>
+                <option value="NON_SAP">Non-SAP (1,613)</option>
+              </select>
+
+              <select class="select-custom" id="filter-status">
+                <option value="ALL">All Statuses</option>
+                <option value="PENDING">Pending</option>
+                <option value="SENT">Sent</option>
+                <option value="FAILED">Failed</option>
+                <option value="REPLIED">Replied</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Contacts Table -->
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Executive Name & Title</th>
+                  <th>Company</th>
+                  <th>Official Email</th>
+                  <th>SAP Practice Category</th>
+                  <th>Target Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contacts-table-body">
+                <tr>
+                  <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-dim);">Loading contacts...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <span id="pagination-info">Showing 1 to 50 of 229 entries</span>
+            <div class="page-buttons">
+              <button class="btn btn-secondary btn-sm" id="btn-prev-page">Previous</button>
+              <button class="btn btn-secondary btn-sm" id="btn-next-page">Next</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------- TAB 3: TEMPLATE STUDIO ---------------- -->
+      <section class="tab-content" id="tab-studio">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>✍️</span> Dynamic Cold Email Studio
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <select class="select-custom" id="template-selector">
+                <!-- Loaded dynamically -->
+              </select>
+              <button class="btn btn-emerald btn-sm" id="btn-save-template">💾 Save Template</button>
+              <button class="btn btn-primary btn-sm" id="btn-activate-template">⭐ Set As Active</button>
+            </div>
+          </div>
+
+          <div class="studio-layout">
+            <!-- Left: Editor -->
+            <div>
+              <div class="form-group">
+                <label>Template Name</label>
+                <input type="text" class="form-control" id="template-name" placeholder="e.g. SAP BTP Direct Pitch">
+              </div>
+
+              <div class="form-group">
+                <label>Subject Line (Supports Spintax: {Hi|Hello} and tokens)</label>
+                <input type="text" class="form-control" id="template-subject" placeholder="{Application|Inquiry}: {{first_name}} - SAP BTP Developer Roles at {{company_name}}">
+              </div>
+
+              <div class="form-group">
+                <label>Dynamic Tokens (Click to insert)</label>
+                <div class="tokens-bar">
+                  <span class="token-chip" data-token="{{first_name}}">{{first_name}}</span>
+                  <span class="token-chip" data-token="{{last_name}}">{{last_name}}</span>
+                  <span class="token-chip" data-token="{{company_name}}">{{company_name}}</span>
+                  <span class="token-chip" data-token="{{designation}}">{{designation}}</span>
+                  <span class="token-chip" data-token="{{target_role}}">{{target_role}}</span>
+                  <span class="token-chip" data-token="{{my_name}}">{{my_name}}</span>
+                  <span class="token-chip" data-token="{{my_phone}}">{{my_phone}}</span>
+                  <span class="token-chip" data-token="{{my_linkedin}}">{{my_linkedin}}</span>
+                  <span class="token-chip" data-token="{{my_portfolio}}">{{my_portfolio}}</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Email Body (Plain Text with Markdown & Spintax)</label>
+                <textarea class="form-control" id="template-body" rows="12"></textarea>
+              </div>
+            </div>
+
+            <!-- Right: Real-time Rendered Preview -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label style="font-size: 13px; font-weight: 600; color: #fff;">Live Preview (Rendered for Lead)</label>
+                <button class="btn btn-secondary btn-sm" id="btn-refresh-preview">🔄 Re-render</button>
+              </div>
+              <div class="preview-box">
+                <div class="preview-subject" id="preview-subject-text">Subject: ...</div>
+                <div id="preview-body-html" style="color: #374151;">Loading preview...</div>
+              </div>
+              <div style="margin-top: 12px; font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px;">
+                <span>📎 Attachment:</span>
+                <strong id="preview-resume-name" style="color: #fff;">Dhruv_Dalal_Resume.pdf (93 KB)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------- TAB 4: SENDER SETTINGS ---------------- -->
+      <section class="tab-content" id="tab-settings">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <!-- SMTP Configuration -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span>🔐</span> SMTP Credentials & Mailbox
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-test-smtp">🔌 Test Handshake</button>
+            </div>
+
+            <div class="form-group">
+              <label>SMTP Host</label>
+              <input type="text" class="form-control" id="settings-host" value="smtp.gmail.com">
+            </div>
+
+            <div class="form-group">
+              <label>SMTP Port</label>
+              <input type="number" class="form-control" id="settings-port" value="587">
+            </div>
+
+            <div class="form-group">
+              <label>Sender / Account Email</label>
+              <input type="email" class="form-control" id="settings-user" value="dhruvadalal.2004@gmail.com">
+            </div>
+
+            <div class="form-group">
+              <label>Google App Password (16 characters)</label>
+              <input type="password" class="form-control" id="settings-pass" placeholder="Enter your 16-character Google App Password">
+              <div style="margin-top: 6px; font-size: 11px; color: var(--text-dim); line-height: 1.4;">
+                *For Gmail: Go to Google Account &rarr; Security &rarr; 2-Step Verification &rarr; <strong>App passwords</strong>. Generate an app password named "Outreach" and paste it here.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Sender Display Name</label>
+              <input type="text" class="form-control" id="settings-name" value="Dhruv Dalal">
+            </div>
+
+            <button class="btn btn-primary" id="btn-save-smtp" style="width: 100%;">
+              💾 Save SMTP Credentials
+            </button>
+          </div>
+
+          <!-- Deliverability & Resume Settings -->
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>🛡️</span> Deliverability & Safety Limits
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                  <label>Daily Email Limit</label>
+                  <input type="number" class="form-control" id="settings-daily-limit" value="35">
+                </div>
+                <div class="form-group">
+                  <label>Batch Size</label>
+                  <input type="number" class="form-control" id="settings-batch-size" value="35">
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                  <label>Min Interval (seconds)</label>
+                  <input type="number" class="form-control" id="settings-delay-min" value="45">
+                </div>
+                <div class="form-group">
+                  <label>Max Interval (seconds)</label>
+                  <input type="number" class="form-control" id="settings-delay-max" value="90">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Default Target Role</label>
+                <input type="text" class="form-control" id="settings-target-role" value="SAP BTP Developer / AI Engineer">
+              </div>
+
+              <button class="btn btn-secondary" id="btn-save-safety" style="width: 100%;">
+                Save Safety Settings
+              </button>
+            </div>
+
+            <!-- Resume PDF Card -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>📄</span> Active Resume Attachment
+                </div>
+                <span class="badge badge-sap" id="resume-size-badge">93 KB (Optimal)</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Current Active File: <strong id="active-resume-name" style="color: #fff;">Dhruv_Dalal_Resume.pdf</strong>
+              </p>
+              <div style="display: flex; gap: 10px;">
+                <input type="file" id="resume-file-input" accept=".pdf" style="display: none;">
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('resume-file-input').click()">
+                  📤 Upload New PDF Resume
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: ADD CONTACT -->
+  <div class="modal-overlay" id="modal-add-contact">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h3 style="font-size: 17px; font-weight: 700; color: #fff;">Add New HR Lead</h3>
+        <button class="btn btn-secondary btn-sm" id="btn-close-modal">✕</button>
+      </div>
+      <div class="form-group">
+        <label>Executive Full Name *</label>
+        <input type="text" class="form-control" id="add-name" placeholder="e.g. Roshan Nair">
+      </div>
+      <div class="form-group">
+        <label>Official Email *</label>
+        <input type="email" class="form-control" id="add-email" placeholder="e.g. nair.roshan@tcs.com">
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div class="form-group">
+          <label>Company *</label>
+          <input type="text" class="form-control" id="add-company" placeholder="e.g. Tata Digital">
+        </div>
+        <div class="form-group">
+          <label>Designation</label>
+          <input type="text" class="form-control" id="add-designation" placeholder="e.g. Associate Director HR">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Has SAP / SAP BTP Roles?</label>
+        <select class="select-custom" id="add-has-sap" style="width: 100%;">
+          <option value="Yes">Yes (High Priority Target)</option>
+          <option value="No">No (Non-SAP)</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btn-submit-add-contact" style="width: 100%; margin-top: 10px;">
+        Save Contact
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: SEND TEST EMAIL -->
+  <div class="modal-overlay" id="modal-test-email">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h3 style="font-size: 17px; font-weight: 700; color: #fff;">Send Sample Test Email</h3>
+        <button class="btn btn-secondary btn-sm" id="btn-close-test-modal">✕</button>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        Dispatches a live test email rendered with your active template, personal contact info, and attached resume PDF to your personal inbox.
+      </p>
+      <div class="form-group">
+        <label>Send Test To Email Address</label>
+        <input type="email" class="form-control" id="test-recipient" value="dhruvadalal.2004@gmail.com">
+      </div>
+      <button class="btn btn-emerald" id="btn-execute-send-test" style="width: 100%; margin-top: 10px;">
+        🚀 Send Test Email Now
+      </button>
+  <!-- MODAL: NEXT SET QUEUE PREVIEW -->
+  <div class="modal-overlay" id="modal-queue-preview">
+    <div class="modal-content" style="max-width: 800px; width: 95%;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div>
+          <h3 style="font-size: 17px; font-weight: 700; color: #fff;" id="queue-modal-title">Upcoming Set Queue</h3>
+          <p style="font-size: 12px; color: var(--text-muted);" id="queue-modal-subtitle">These contacts will be dispatched in the next batch</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btn-close-queue-modal">✕</button>
+      </div>
+      <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Executive Name</th>
+              <th>Company</th>
+              <th>Official Email</th>
+              <th>SAP Category</th>
+            </tr>
+          </thead>
+          <tbody id="queue-preview-table-body">
+            <tr><td colspan="5" style="text-align:center; padding: 20px;">Loading queue...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
+        <span style="font-size: 12px; color: var(--text-dim);" id="queue-modal-count">0 contacts in this upcoming set</span>
+        <button class="btn btn-primary btn-sm" id="btn-confirm-start-from-modal">
+          🚀 Start Dispatching This Set Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
